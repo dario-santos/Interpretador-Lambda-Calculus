@@ -1,0 +1,3 @@
+(executables
+ (names interpt)
+ (libraries lambda))
