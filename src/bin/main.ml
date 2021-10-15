@@ -1,5 +1,3 @@
-open Lambda
-
 let l_true  = Lambda.Abs(Lambda.Abs((Lambda.Var 1)))
 let l_false = Lambda.Abs(Lambda.Abs((Lambda.Var 0)))
 
