@@ -32,26 +32,26 @@ let test_expression expr =
   let v = Lambda.exec ~is_lazy:false expr in
   Printf.printf "%s\n\n" (Lambda.string_of_lambda v)
 
-  
-  
-let () = Printf.printf "\n\nInteger Tests:\n"  
-let () = test_expression (l_succ l_zero)
+let () = Printf.printf "\n\n*** Integer Tests ***\n"
 
+let () = test_expression (l_succ l_zero)
+  
 let () = test_expression (l_succ (l_succ (l_succ (l_succ (l_succ (l_succ l_zero))))))
 
 let () = 
   let l_three = (l_succ(l_succ (l_succ l_zero))) in
   let l_five = l_succ(l_succ(l_succ(l_succ (l_succ l_zero)))) in
-  
-  test_expression (l_exp l_three l_five)
+  test_expression (l_mul l_three l_five)
 
-(*
-let () = Printf.printf "\n\nBoolean Tests:\n"
+
+let () = Printf.printf "\n\n*** Boolean Tests ***\n"
+
+let () = Printf.printf "\nAnd Truth Table:\n"
 let () = test_expression (l_and l_true l_true)
 let () = test_expression (l_and l_false l_true)
 let () = test_expression (l_and l_true l_false)
 let () = test_expression (l_and l_false l_false)
-*)
+
 (* Teste infinito*)
 (*
 let t5 = Lambda.App(Lambda.Abs(Lambda.App(Lambda.Var 0, Lambda.Var 0)), Lambda.Abs(Lambda.App(Lambda.Var 0, Lambda.Var 0)))

@@ -2,7 +2,7 @@ build:
 	dune build
 
 exec:
-	dune exec ./bin/interpt.exe
+	dune exec ./bin/main.exe
 
 clean:
 	dune clean
