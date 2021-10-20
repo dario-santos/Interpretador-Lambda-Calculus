@@ -9,12 +9,14 @@ sig
   
   val can_reduce : lambda -> bool
   val b_reduce : lambda -> lambda -> lambda
+  
+  val to_cps : lambda -> lambda
 end
 
 module Machine = struct
   let rec string_of_lambda = function 
     | Var id -> string_of_int id
-    | Abs t1 -> "(\\."^(string_of_lambda t1)^")"
+    | Abs t1 -> "(λ."^(string_of_lambda t1)^")"
     | App (t1,t2) -> 
       let t1 = string_of_lambda t1 in 
       let t2 = string_of_lambda t2 in
@@ -37,11 +39,26 @@ module Machine = struct
         App(t1, t2)
       in
     aux arg body (-1) true
+
+
+  let to_cps expr =
+    let rec aux expr k_cnt = match expr with
+    | Var id -> Abs(App(Var 0, Var (id+k_cnt+1)))
+    | Abs t  ->
+      let t = aux t (k_cnt+1)in
+      Abs(App(Var 0, Abs t))
+    | App(f, e) ->
+      let f = aux f (k_cnt+1) in
+      let e = aux e (k_cnt+1) in
+      Abs(App(f, Abs(App(e, Abs(App(App(Var 1, Var 0), Var 2))))))
+    in
+    aux expr (-1)
 end
 
 module Make_Eager(L : LambdaMachine) = 
 struct
   let string_of_lambda = L.string_of_lambda
+  let to_cps = L.to_cps
 
   let rec exec = function
   | Var id -> Var id
@@ -57,6 +74,7 @@ end
 module Make_Lazy(L : LambdaMachine) = 
 struct
   let string_of_lambda = L.string_of_lambda
+  let to_cps = L.to_cps
 
   let rec exec = function
   | Var id -> Var id
@@ -71,3 +89,4 @@ end
 module MachineEager = Make_Eager(Machine)
 
 module MachineLazy = Make_Lazy(Machine)
+
