@@ -29,8 +29,8 @@ let l_exp m n =
   
 
 let test_expression expr =
-  let v = MachineEager.exec expr in
-  Printf.printf "%s\n\n" (MachineEager.string_of_lambda v)
+  let v = MachinePlotkin.exec expr in
+  Printf.printf "%s\n\n" (MachinePlotkin.string_of_lambda v)
 
 let () = Printf.printf "\n\n*** Integer Tests ***\n"
 
@@ -93,6 +93,13 @@ let vtest = MachineEager.exec (g l_three)
 let () = Printf.printf "%s\n\n" (MachineEager.string_of_lambda vtest)
 *)
 
+let () = Printf.printf "\n\nOne Pass:\n\n" 
 let t8 = Abs(Abs(Abs(App(App(Var 2, Var 0), Var 1))))
-let v8 = MachineEager.to_cps t8
-let () = Printf.printf "%s\n\n" (MachineEager.string_of_lambda v8)
+let v8 = MachineOnePass.to_cps t8
+let () = Printf.printf "%s\n\n" (MachineOnePass.string_of_lambda v8)
+
+
+let () = Printf.printf "\n\nPlotkin:\n\n" 
+let t8 = Abs(Abs(Abs(App(App(Var 2, Var 0), Var 1))))
+let v8 = MachinePlotkin.to_cps t8
+let () = Printf.printf "%s\n\n" (MachinePlotkin.string_of_lambda v8)

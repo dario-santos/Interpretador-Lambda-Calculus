@@ -3,7 +3,7 @@ type lambda =
   | Abs of lambda
   | App of lambda * lambda
 
-module MachineEager : 
+module MachineOnePass : 
 sig 
   val string_of_lambda : lambda -> string
   
@@ -12,7 +12,7 @@ sig
   val exec : lambda -> lambda
 end
 
-module MachineLazy : 
+module MachinePlotkin : 
 sig 
   val string_of_lambda : lambda -> string
   
