@@ -1,3 +1,4 @@
+open Machine
 open Lambda
 
 let l_true  = Abs(Abs(Var 1))
