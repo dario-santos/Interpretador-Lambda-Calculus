@@ -29,6 +29,15 @@ let l_exp m n =
   App(App(Abs(Abs(Abs(Abs(mfnfx)))), n), m)
   
 
+
+module MachineFisherPlotkin = Machine.MakeMachine (Beta_redux.Eager) (Cps.FisherPlotkin)
+
+module MachineOnePass = Machine.MakeMachine (Beta_redux.Eager) (Cps.OnePassTail)
+
+module MachinePlotkin = Machine.MakeMachine (Beta_redux.Eager) (Cps.Plotkin)
+
+
+
 let test_expression expr =
   let v = MachinePlotkin.exec expr in
   Printf.printf "%s\n\n" (MachinePlotkin.string_of_lambda v)
@@ -95,12 +104,12 @@ let () = Printf.printf "%s\n\n" (MachineEager.string_of_lambda vtest)
 *)
 
 let () = Printf.printf "\n\nOne Pass:\n\n" 
-let t8 = Abs(Abs(Abs(App(App(Var 2, Var 0), Var 1))))
+let t8 = Abs(Abs(App(Var 0, Var 1)))
 let v8 = MachineOnePass.to_cps t8
 let () = Printf.printf "%s\n\n" (MachineOnePass.string_of_lambda v8)
 
 
-let () = Printf.printf "\n\nPlotkin:\n\n" 
+let () = Printf.printf "\n\nMachineFisherPlotkin:\n\n" 
 let t8 = Abs(Abs(Abs(App(App(Var 2, Var 0), Var 1))))
-let v8 = MachinePlotkin.to_cps t8
-let () = Printf.printf "%s\n\n" (MachinePlotkin.string_of_lambda v8)
+let v8 = MachineFisherPlotkin.to_cps t8
+let () = Printf.printf "%s\n\n" (MachineFisherPlotkin.string_of_lambda v8)

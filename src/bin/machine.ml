@@ -26,7 +26,3 @@ struct
 
   let exec = B.exec
 end
-
-module MachineOnePass = MakeMachine (Beta_redux.Eager) (Cps.OnePassTail)
-
-module MachinePlotkin = MakeMachine (Beta_redux.Eager) (Cps.Plotkin)
