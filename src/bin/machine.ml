@@ -2,8 +2,6 @@ open Lambda
 
 module type BetaReduction =
 sig
-  val can_reduce : lambda -> bool
-  val b_reduce : lambda -> lambda -> lambda
   val exec : lambda -> lambda
 end
 
