@@ -1,4 +1,3 @@
-open Machine
 open Lambda
 
 let l_true  = Abs(Abs(Var 1))
@@ -6,8 +5,7 @@ let l_false = Abs(Abs(Var 0))
 
 let l_not x = App(App(x,l_false),l_true)
 let l_or x y = App(App(x,l_true),y)
-let l_and x y = App(App(x,y),l_false)
-
+let l_and x y = App(App(x,y), l_false)
 
 (* Integers *)
 let l_zero = Abs(Abs((Var 0)))
@@ -108,8 +106,9 @@ let t8 = Abs(Abs(App(Var 0, Var 1)))
 let v8 = MachineOnePass.to_cps t8
 let () = Printf.printf "%s\n\n" (MachineOnePass.string_of_lambda v8)
 
-
 let () = Printf.printf "\n\nMachineFisherPlotkin:\n\n" 
 let t8 = Abs(Abs(Abs(App(App(Var 2, Var 0), Var 1))))
 let v8 = MachineFisherPlotkin.to_cps t8
+let () = Printf.printf "%s\n\n" (MachineFisherPlotkin.string_of_lambda v8)
+let v8 = MachineFisherPlotkin.exec v8
 let () = Printf.printf "%s\n\n" (MachineFisherPlotkin.string_of_lambda v8)

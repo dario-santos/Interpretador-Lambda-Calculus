@@ -26,8 +26,7 @@ module Eager = struct
       let t2 = exec t2 in
       let tr = b_reduce t2 t1 in
       
-      if can_reduce t1 then exec tr else Lambda.App(t1, t2) 
-
+      if can_reduce t1 then exec tr else Lambda.App(t1, t2)
 end
 
 module Lazy = struct
