@@ -9,8 +9,23 @@ let rec update lvl expr = match expr with
     let n = update lvl n in
     App (m, n)
 
-(* Transformação de Fischer e Plotkin *)
-module FisherPlotkin = struct
+module Fischer = struct
+  let to_cps expr =
+    let rec aux = function
+      | Var id -> Abs(App(Var 0, Var (id+1)))
+      | Abs m  ->
+        let m = aux m in
+        Abs(App(Var 0, Abs(Abs(App(update 0 m, Var 1)))))
+      | App(m, n) ->
+        let m = aux m in
+        let n = aux n in
+        Abs(App(update (-1) m, Abs(App(update 0 (update (-1) n), Abs(App(App(Var 1, Var 2), Var 0))))))
+    in
+
+    aux expr
+end
+
+module FischerPlotkin = struct
   let to_cps expr =
     let rec aux expr = match expr with
     | Var id -> Abs(App(Var 0, Var (id+1)))
@@ -25,12 +40,6 @@ module FisherPlotkin = struct
     aux expr
 end
 
-(**  Plotkin Transformation
-
-    [x]     : x
-    [/\x.M] : /\k.@k (/\x.[M])
-    [@N M]  : /\k.[M] (/\m.@(@(m [N]) k))
-*)
 module Plotkin = struct  
   let to_cps expr =
     let rec aux = function
@@ -47,7 +56,6 @@ module Plotkin = struct
 end
 
 
-(* Plotkin sem reduções beta só eta *)
 module OnePassTail = struct
   let to_cps expr =
     let rec aux = function

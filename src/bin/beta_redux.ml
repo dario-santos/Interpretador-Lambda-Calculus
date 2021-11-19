@@ -4,14 +4,13 @@ let rec can_reduce = function
   | Lambda.App(t1, _) -> can_reduce t1
 
 let b_reduce arg body =
-  (*If it's not the id to change then subctract 1. Is this correct????? what about /\x./\y.y will not /\y.y go to -1?*)
   let rec aux arg body lv remove = match body with
     | Lambda.Var id -> 
       begin
         match id with
-        | id when id = lv -> arg
         | id when id > lv -> Lambda.Var (id-1)
         | id when id < lv -> Lambda.Var id
+        | _ -> arg
       end
     | Lambda.Abs t1 ->
       let t1 = aux arg t1 (lv+1) false in
